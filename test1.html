@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Для моей булочки ❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Comfortaa:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Comfortaa', cursive;
+      background: linear-gradient(135deg, #ffeef5 0%, #fff0f8 40%, #fce4ec 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #5d3a4a;
+    }
+
+    /* Floating hearts background */
+    .hearts-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -50px;
+      font-size: 20px;
+      animation: floatUp linear infinite;
+      opacity: 0.7;
+      filter: drop-shadow(0 0 4px rgba(255, 105, 180, 0.4));
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-110vh) rotate(360deg) scale(0.6);
+        opacity: 0;
+      }
+    }
+
+    /* Screens */
+    .screen {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      transform: scale(0.95);
+    }
+
+    /* Intro screen */
+    .intro-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border-radius: 30px;
+      padding: 50px 40px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(255, 105, 180, 0.25),
+                  0 0 0 1px rgba(255, 182, 193, 0.3);
+      max-width: 420px;
+      width: 100%;
+      animation: cardAppear 1s ease-out;
+    }
+
+    @keyframes cardAppear {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .big-heart {
+      font-size: 70px;
+      animation: heartbeat 1.4s ease-in-out infinite;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      15% { transform: scale(1.25); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.15); }
+      60% { transform: scale(1); }
+    }
+
+    .intro-title {
+      font-family: 'Pacifico', cursive;
+      font-size: 28px;
+      color: #e91e63;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+
+    .intro-text {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 35px;
+      color: #7a4a5a;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+      color: white;
+      border: none;
+      padding: 16px 36px;
+      font-size: 17px;
+      font-family: 'Comfortaa', cursive;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 12px 30px rgba(255, 107, 157, 0.5);
+    }
+
+    .btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* Photos screen */
+    .photos-screen {
+      padding: 40px 15px 80px;
+      justify-content: flex-start;
+    }
+
+    .congrats-box {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 35px 30px;
+      text-align: center;
+      max-width: 520px;
+      width: 100%;
+      margin-bottom: 30px;
+      box-shadow: 0 15px 40px rgba(255, 105, 180, 0.2);
+      animation: fadeInUp 0.8s ease;
+      position: relative;
+      z-index: 20;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .congrats-title {
+      font-family: 'Pacifico', cursive;
+      font-size: 32px;
+      color: #e91e63;
+      margin-bottom: 15px;
+    }
+
+    .congrats-text {
+      font-size: 17px;
+      line-height: 1.7;
+      color: #6b4555;
+    }
+
+    /* ===== SCATTERED PHOTOS ===== */
+    .photos-scatter {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      min-height: 680px;
+      margin: 10px auto 40px;
+    }
+
+    .photo-card {
+      position: absolute;
+      background: white;
+      border-radius: 8px;
+      padding: 10px 10px 16px;
+      box-shadow: 
+        0 4px 15px rgba(0,0,0,0.12),
+        0 1px 4px rgba(0,0,0,0.08);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, z-index 0s;
+      cursor: pointer;
+      animation: photoAppear 0.7s ease backwards;
+    }
+
+    .photo-card:hover {
+      z-index: 50 !important;
+      box-shadow: 
+        0 12px 35px rgba(255, 105, 180, 0.3),
+        0 4px 12px rgba(0,0,0,0.15);
+      transform: scale(1.08) rotate(0deg) !important;
+    }
+
+    .photo-card:nth-child(1) { animation-delay: 0.1s; }
+    .photo-card:nth-child(2) { animation-delay: 0.25s; }
+    .photo-card:nth-child(3) { animation-delay: 0.4s; }
+    .photo-card:nth-child(4) { animation-delay: 0.55s; }
+    .photo-card:nth-child(5) { animation-delay: 0.7s; }
+    .photo-card:nth-child(6) { animation-delay: 0.85s; }
+
+    @keyframes photoAppear {
+      from {
+        opacity: 0;
+        transform: scale(0.6) rotate(0deg);
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 160px;
+      background: linear-gradient(135deg, #ffc1d9, #ff9ebf);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .photo-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-caption {
+      text-align: center;
+      font-size: 13px;
+      color: #7a4a5a;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    /* Different positions & rotations for messy look */
+    .photo-card:nth-child(1) {
+      width: 200px;
+      top: 20px;
+      left: 5%;
+      transform: rotate(-8deg);
+      z-index: 5;
+    }
+    .photo-card:nth-child(2) {
+      width: 180px;
+      top: 40px;
+      right: 8%;
+      left: auto;
+      transform: rotate(6deg);
+      z-index: 4;
+    }
+    .photo-card:nth-child(3) {
+      width: 210px;
+      top: 230px;
+      left: 12%;
+      transform: rotate(4deg);
+      z-index: 6;
+    }
+    .photo-card:nth-child(4) {
+      width: 190px;
+      top: 210px;
+      right: 5%;
+      left: auto;
+      transform: rotate(-5deg);
+      z-index: 3;
+    }
+    .photo-card:nth-child(5) {
+      width: 170px;
+      top: 420px;
+      left: 25%;
+      transform: rotate(-3deg);
+      z-index: 7;
+    }
+    .photo-card:nth-child(6) {
+      width: 200px;
+      top: 400px;
+      right: 18%;
+      left: auto;
+      transform: rotate(7deg);
+      z-index: 5;
+    }
+
+    /* Tape effect on some photos */
+    .photo-card::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: 60px;
+      height: 18px;
+      background: rgba(255, 255, 255, 0.55);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border-radius: 2px;
+    }
+
+    .final-message {
+      margin-top: 30px;
+      text-align: center;
+      max-width: 480px;
+      animation: fadeInUp 1s ease 0.9s backwards;
+      position: relative;
+      z-index: 20;
+      background: rgba(255,255,255,0.7);
+      padding: 25px;
+      border-radius: 20px;
+    }
+
+    .final-message p {
+      font-size: 17px;
+      line-height: 1.7;
+      color: #6b4555;
+      margin-bottom: 10px;
+    }
+
+    .final-hearts {
+      font-size: 28px;
+      margin-top: 8px;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 600px) {
+      .photos-scatter {
+        min-height: 900px;
+      }
+      .photo-card:nth-child(1) {
+        width: 160px;
+        top: 10px;
+        left: 2%;
+      }
+      .photo-card:nth-child(2) {
+        width: 150px;
+        top: 30px;
+        right: 2%;
+      }
+      .photo-card:nth-child(3) {
+        width: 170px;
+        top: 220px;
+        left: 5%;
+      }
+      .photo-card:nth-child(4) {
+        width: 155px;
+        top: 250px;
+        right: 3%;
+      }
+      .photo-card:nth-child(5) {
+        width: 150px;
+        top: 480px;
+        left: 8%;
+      }
+      .photo-card:nth-child(6) {
+        width: 165px;
+        top: 460px;
+        right: 5%;
+      }
+      .congrats-title {
+        font-size: 26px;
+      }
+      .intro-title {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating hearts -->
+  <div class="hearts-container" id="hearts"></div>
+
+  <!-- Screen 1: Intro -->
+  <div class="screen" id="introScreen">
+    <div class="intro-card">
+      <div class="big-heart">💖</div>
+      <h1 class="intro-title">Булочка,</h1>
+      <p class="intro-text">у меня для тебя кое-что есть...</p>
+      <button class="btn" id="openBtn">Посмотреть, что же там такое интересновое</button>
+    </div>
+  </div>
+
+  <!-- Screen 2: Photos & Congrats -->
+  <div class="screen photos-screen hidden" id="photosScreen">
+    <div class="congrats-box">
+      <h1 class="congrats-title">С Днём Рождения! 🎂</h1>
+      <p class="congrats-text">
+        Моя самая любимая булочка,<br>
+        ты — самое тёплое и светлое, что есть в моей жизни.<br>
+        Спасибо, что ты есть. Люблю тебя до луны и обратно❤️
+      </p>
+    </div>
+
+    <!-- SCATTERED PHOTOS -->
+    <div class="photos-scatter">
+
+      <!-- ФОТО 1 -->
+      <div class="photo-card">
+        <div class="photo-placeholder">
+          <!-- Замени на своё фото: -->
+          <!-- <img src="photo1.jpg" alt="фото"> -->
+          <div class="photo-placeholder">
+  <img src="photo1.jpg" alt="фото">
+</div>
+        </div>
+        <div class="photo-caption">Я</div>
+      </div>
+
+      <!-- ФОТО 2 -->
+      <div class="photo-card">
+        <div class="photo-placeholder">
+          <div class="photo-placeholder">
+  <img src="photo2.jpg" alt="фото">
+</div>
+        </div>
+        <div class="photo-caption">тебя</div>
+      </div>
+
+      <!-- ФОТО 3 -->
+      <div class="photo-card">
+        <div class="photo-placeholder">
+          <div class="photo-placeholder">
+  <img src="photo3.jpg" alt="фото">
+</div>
+        </div>
+        <div class="photo-caption">очень</div>
+      </div>
+
+      <!-- ФОТО 4 -->
+      <div class="photo-card">
+        <div class="photo-placeholder">
+          <div class="photo-placeholder">
+  <img src="photo4.jpg" alt="фото">
+</div>
+        </div>
+        <div class="photo-caption">сильно</div>
+      </div>
+
+      <!-- ФОТО 5 -->
+      <div class="photo-card">
+        <div class="photo-placeholder">
+          <div class="photo-placeholder">
+  <img src="photo5.jpg" alt="фото">
+</div>
+        </div>
+        <div class="photo-caption">люблю</div>
+      </div>
+
+      <!-- ФОТО 6 -->
+      <div class="photo-card">
+        <div class="photo-placeholder">
+          <div class="photo-placeholder">
+  <img src="photo6.jpg" alt="фото">
+</div>
+        </div>
+        <div class="photo-caption">радость моя</div>
+      </div>
+
+    </div>
+
+    <div class="final-message">
+      <p>С твоим 18-летием, любовь моя,<br>помни, что ты у меня самая лучшая.</p>
+      <p style="font-family: 'Pacifico', cursive; font-size: 22px; color: #e91e63;">Как и обсуждали, подарочки будут чуть позже</p>
+      <div class="final-hearts">💕💗💖</div>
+    </div>
+  </div>
+
+  <script>
+    // Create floating hearts
+    const heartsContainer = document.getElementById('hearts');
+    const heartEmojis = ['💖', '💗', '💕', '💓', '💞', '❤️', '🩷', '💘'];
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (16 + Math.random() * 22) + 'px';
+      heart.style.animationDuration = (6 + Math.random() * 8) + 's';
+      heart.style.animationDelay = Math.random() * 2 + 's';
+      heartsContainer.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 14000);
+    }
+
+    setInterval(createHeart, 400);
+    for (let i = 0; i < 12; i++) {
+      setTimeout(createHeart, i * 150);
+    }
+
+    // Button click
+    const openBtn = document.getElementById('openBtn');
+    const introScreen = document.getElementById('introScreen');
+    const photosScreen = document.getElementById('photosScreen');
+
+    openBtn.addEventListener('click', () => {
+      for (let i = 0; i < 20; i++) {
+        setTimeout(createHeart, i * 40);
+      }
+
+      introScreen.classList.add('hidden');
+      setTimeout(() => {
+        photosScreen.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 400);
+    });
+
+    // Hearts on mouse move
+    let lastHeart = 0;
+    document.addEventListener('mousemove', (e) => {
+      const now = Date.now();
+      if (now - lastHeart > 300) {
+        lastHeart = now;
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = '💕';
+        heart.style.left = e.clientX + 'px';
+        heart.style.bottom = (window.innerHeight - e.clientY) + 'px';
+        heart.style.fontSize = '14px';
+        heart.style.animationDuration = '4s';
+        heartsContainer.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+      }
+    });
+  </script>
+</body>
+</html>
